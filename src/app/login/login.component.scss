@@ -1,0 +1,89 @@
+/* General Form Styling */
+.login-form {
+  max-width: 420px;
+  margin: 60px auto;
+  background: #f9faff; /* soft light background */
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-title {
+  text-align: center;
+  color: #0f3d91; /* deeper calm blue */
+  margin-bottom: 22px;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1f1f1f; /* darker text for readability */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #d0d4da;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+.form-group input:focus {
+  border-color: #0f3d91;
+  box-shadow: 0 0 8px rgba(15, 61, 145, 0.15);
+  outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background-color: #0f3d91; /* calm deep blue */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0b2a66; /* slightly darker hover */
+  transform: translateY(-1px);
+}
+
+/* Links & Error */
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.register-link a {
+  color: #2a9d8f; /* soft teal accent */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  color: #1e7c6b;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #e63946; /* vivid but soft red for errors */
+  text-align: center;
+  margin-top: 14px;
+  font-weight: 600;
+}

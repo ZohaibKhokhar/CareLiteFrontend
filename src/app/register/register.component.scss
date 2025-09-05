@@ -1,0 +1,102 @@
+.register-form {
+  max-width: 600px;
+  margin: 60px auto;
+  background: linear-gradient(145deg, #ffffff, #f7f9fc);
+  padding: 50px;
+  border-radius: 16px;
+  
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .form-title {
+    text-align: center;
+    color: #1e4d8c;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #3a3a3a;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d0d0d0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.35s ease;
+
+      &:focus {
+        border-color: #1e4d8c;
+        box-shadow: 0 4px 12px rgba(30, 77, 140, 0.15);
+        outline: none;
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: #1e4d8c;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #163b6b;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 16px rgba(22, 59, 107, 0.3);
+    }
+  }
+
+  .login-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+
+    a {
+      color: #28a745;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        color: #1e7c34;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .success-message,
+  .error-message {
+    text-align: center;
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 0;
+    border-radius: 8px;
+  }
+
+  .success-message {
+    background-color: #e6f4ea;
+    color: #28a745;
+  }
+
+  .error-message {
+    background-color: #fde6e6;
+    color: #d9534f;
+  }
+}

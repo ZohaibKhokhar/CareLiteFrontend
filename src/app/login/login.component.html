@@ -1,0 +1,24 @@
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h2 class="form-title">Care Lite - Login</h2>
+
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input id="username" type="text" formControlName="username" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+
+  <button class="btn-primary" type="submit">Login</button>
+
+  <p class="register-link">
+    Don't have an account? <a routerLink="/register">Register</a>
+  </p>
+
+@if (errorMessage$ | async; as error) {
+  <p class="error-message">{{ error }}</p>
+}
+
+</form>

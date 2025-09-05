@@ -1,0 +1,57 @@
+<form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <h2 class="form-title">Create Your Account</h2>
+
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input id="username" type="text" formControlName="username" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+
+  <div class="form-group">
+    <label for="confirmPassword">Confirm Password:</label>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number:</label>
+    <input id="phoneNumber" type="text" formControlName="phoneNumber" />
+  </div>
+
+  <div class="form-group">
+    <label for="address">Address:</label>
+    <input id="address" type="text" formControlName="address" />
+  </div>
+
+  <div class="form-group">
+    <label for="role">Role:</label>
+    <select id="role" formControlName="roleID">
+      <option value="">-- Select Role --</option>
+      @for (role of roles; track role.id) {
+        <option [value]="role.id">{{ role.name }}</option>
+      }
+    </select>
+  </div>
+
+  <button class="btn-primary" type="submit">Register</button>
+
+  <p class="login-link">
+    Already have an account? <a routerLink="/login">Login</a>
+  </p>
+
+  @if (successMessage) {
+    <p class="success-message">{{ successMessage }}</p>
+  }
+
+  @if (errorMessage$ | async; as error) {
+    <p class="error-message">{{ error }}</p>
+  }
+</form>

@@ -1,0 +1,36 @@
+<div class="patient-container">
+  <div class="header-section">
+    <h2>Patients List</h2>
+    <button class="add-btn" (click)="navigateToAddPatient()">+ Add Patient</button>
+  </div>
+
+  @if (isLoading$ | async) {
+    <p class="loading-text">Loading patients...</p>
+  }
+
+  @if (errorMessage$ | async; as error) {
+    <p class="error-text">{{ error }}</p>
+  }
+
+  @if (!(isLoading$ | async) && (((patients$ | async)?.length ?? 0) > 0)) {
+    <div class="patient-list">
+      @for (patient of (patients$ | async); track patient.patientID) {
+        <div class="patient-card">
+          <h3>{{ patient.patientName }}</h3>
+          <p><strong>Name:</strong> {{ patient.patientName }}</p>
+          <p><strong>Email:</strong> {{ patient.email }}</p>
+          <p><strong>Address:</strong> {{ patient.patientAddress }}</p>
+
+          <div class="actions">
+            <button class="delete-btn" (click)="deletePatient(patient.patientID)">Delete</button>
+            <button class="update-btn" (click)="updatePatient(patient.patientID)">Update</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!(isLoading$ | async) && (((patients$ | async)?.length ?? 0) === 0)) {
+    <p class="empty-text">No patients found.</p>
+  }
+</div>
