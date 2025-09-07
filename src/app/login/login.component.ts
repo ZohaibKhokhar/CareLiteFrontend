@@ -8,7 +8,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environment/environment';
-
+import { SnackbarService } from '../../services/toast.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private toast: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -39,11 +40,9 @@ export class LoginComponent implements OnInit {
     this.store.dispatch(new Login(this.loginForm.value)).subscribe({
       next: () => {
         this.userRole = sessionStorage.getItem(environment.roleKey) || '';
-        console.log('Login successful');
-        alert('Login successful');
         this.router.navigate(['/dashboard']);
       },
-      error: () => alert('Login failed')
+      error: () => this.toast.error('Login failed')
     });
   }
 }

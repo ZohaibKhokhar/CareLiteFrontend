@@ -9,7 +9,7 @@ import { PatientState } from '../../../../stores/Patient/patient.state';
 import { Observable } from 'rxjs';
 import { PatientRead } from '../../../../models/Patient/patient-read.model';
 import { AlphaSpaceOnlyDirective } from '../../../../directives/alpha-space-only.directive';
-
+import { SnackbarService } from '../../../../services/toast.service';
 @Component({
   selector: 'app-add-patient',
   standalone: true,
@@ -32,6 +32,7 @@ export class AddPatientComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private location = inject(Location);
+  private toast = inject(SnackbarService);
 
   ngOnInit() {
     this.patientId = Number(this.route.snapshot.paramMap.get('id'));
@@ -67,13 +68,19 @@ export class AddPatientComponent implements OnInit {
 
     if (this.isEditMode) {
       this.store.dispatch(new UpdatePatient(this.patientId, patientData)).subscribe({
-        next: () => this.router.navigate(['/patients']),
-        error: () => alert('Failed to update patient')
+        next: () =>{
+          this.router.navigate(['/patients']);
+          this.toast.success('Patient updated successfully');
+        },
+        error: () => this.toast.error('Failed to update patient')
       });
     } else {
       this.store.dispatch(new AddPatient(patientData)).subscribe({
-        next: () => this.router.navigate(['/patients']),
-        error: () => alert('Failed to add patient')
+        next: () => {
+          this.router.navigate(['/patients']);
+          this.toast.success('Patient added successfully');
+        },
+        error: () => this.toast.error('Failed to add patient')
       });
     }
   }

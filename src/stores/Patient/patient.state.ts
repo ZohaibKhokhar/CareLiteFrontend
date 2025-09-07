@@ -6,17 +6,19 @@ import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 import { PatientStateModel } from './patient.state.model';
-import { GetPatients, GetPatientById, AddPatient, UpdatePatient,DeletePatient } from './patient.actions';
+import { GetPatients, GetPatientById, AddPatient, UpdatePatient,DeletePatient, SearchPatients } from './patient.actions';
 import { environment } from '../../environment/environment';
 import { PatientRead } from '../../models/Patient/patient-read.model';
 @State<PatientStateModel>({
   name: 'patients',
-  defaults: {
-    patients: [],
-    selectedPatient: null,
-    loading: false,
-    error: null
-  }
+defaults: {
+  patients: [],
+  selectedPatient: null,
+  totalCount: 0,
+  loading: false,
+  error: null
+}
+
 })
 @Injectable()
 export class PatientState {
@@ -44,6 +46,12 @@ export class PatientState {
   static getError(state: PatientStateModel): string | null {
     return state.error;
   }
+  
+  @Selector()
+  static getTotalCount(state: PatientStateModel): number {
+    return state.totalCount;
+  }
+  
 
   // ACTIONS
   @Action(GetPatients)
@@ -121,4 +129,28 @@ export class PatientState {
       })
     );
   }
+
+@Action(SearchPatients)
+searchPatients(ctx: StateContext<PatientStateModel>, { searchTerm, page, pageSize, sortBy, sortOrder }: SearchPatients) {
+  ctx.patchState({ loading: true, error: null });
+
+  const params = new URLSearchParams({
+    search: searchTerm,
+    page: page.toString(),
+    pageSize: pageSize.toString(),
+    sortBy,
+    sortOrder
+  });
+
+  return this.http.get<{ data: PatientRead[], totalCount: number }>(`${this.apiUrl}/search?${params.toString()}`).pipe(
+    tap(response => {
+      ctx.patchState({ patients: response.data, totalCount: response.totalCount, loading: false });
+    }),
+    catchError(error => {
+      ctx.patchState({ error: error.message, loading: false });
+      return throwError(() => error);
+    })
+  );
+}
+
 }

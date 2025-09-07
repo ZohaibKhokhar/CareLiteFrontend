@@ -6,6 +6,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { changePassword, Login, Logout, Register } from './auth.actions';
+import { SnackbarService } from '../../services/toast.service';
 
 export interface AuthStateModel {
   token: string | null;
@@ -27,7 +28,7 @@ export interface AuthStateModel {
 })
 @Injectable()
 export class AuthState {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private toast: SnackbarService) {}
 
   // Selectors
   @Selector()
@@ -60,6 +61,7 @@ export class AuthState {
         if (response?.token) {
           sessionStorage.setItem(environment.roleKey, response.role);
           sessionStorage.setItem(environment.tokenKey, response.token);
+          this.toast.success('Login successful');
           ctx.patchState({
             token: response.token,
             isAuthenticated: true,
@@ -67,6 +69,7 @@ export class AuthState {
             error: null
           });
         } else {
+          this.toast.error('Login failed');
           ctx.patchState({ loading: false, error: 'Invalid login response' });
         }
       }),
@@ -89,6 +92,7 @@ export class AuthState {
         ctx.patchState({ loading: false, error: null });
       }),
       catchError((error) => {
+        this.toast.error('Please Enter Valid Data');
         ctx.patchState({
           loading: false,
           error: error?.error?.message || 'Registration failed'
@@ -103,6 +107,7 @@ export class AuthState {
   logout(ctx: StateContext<AuthStateModel>) {
     sessionStorage.removeItem(environment.tokenKey);
     sessionStorage.removeItem(environment.roleKey);
+    this.toast.success('Logged out successfully');
     ctx.setState({
       token: null,
       user: null,
@@ -119,6 +124,7 @@ export class AuthState {
     return this.http.post(`${environment.baseUrl}/User/change-password`, action.credentials).pipe(
       tap(() => {
         ctx.patchState({ loading: false, error: null });
+        this.toast.success('Password changed successfully');
       }),
       catchError((error) => {
         ctx.patchState({

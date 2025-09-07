@@ -1,0 +1,10 @@
+<nav class="navbar">
+  <div class="brand" (click)="navigateHome()">CareLite</div>
+
+  <div class="nav-actions">
+    <button class="back-button" (click)="goBack()">Back</button>
+    @if (isLoggedIn$ | async) {
+      <button class="button" (click)="logout()">Logout</button>
+    }
+  </div>
+</nav>

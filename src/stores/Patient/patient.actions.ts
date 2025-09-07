@@ -24,3 +24,15 @@ export class DeletePatient {
   static readonly type = '[Patient] Delete';
   constructor(public id: number) {}
 }
+
+
+export class SearchPatients {
+  static readonly type = '[Patient] Search';
+  constructor(
+    public searchTerm: string = '',
+    public page: number = 1,
+    public pageSize: number = 10,
+    public sortBy: string = 'PatientName',
+    public sortOrder: 'asc' | 'desc' = 'asc'
+  ) {}
+}
