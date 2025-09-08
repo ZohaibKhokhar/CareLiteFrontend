@@ -1,0 +1,64 @@
+.providers-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .toolbar {
+    margin-bottom: 1.5rem;
+
+    button {
+      background: #4caf50;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background: #43a047;
+      }
+    }
+  }
+
+  .providers-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .provider-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #fafafa;
+
+    .details {
+      margin-bottom: 0.5rem;
+    }
+
+    .actions button {
+      margin-right: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:first-child {
+        background: #2196f3;
+        color: #fff;
+      }
+
+      &:last-child {
+        background: #f44336;
+        color: #fff;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

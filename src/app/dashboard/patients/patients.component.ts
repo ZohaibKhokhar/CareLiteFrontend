@@ -7,7 +7,8 @@ import { PatientRead } from '../../../models/Patient/patient-read.model';
 import { SearchPatients, DeletePatient } from '../../../stores/Patient/patient.actions';
 import { PatientState } from '../../../stores/Patient/patient.state';
 import { CommonModule } from '@angular/common';
-
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-patients',
   standalone: true,
@@ -33,7 +34,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   // Expose Math for template usage (e.g., Math.ceil)
   Math = Math;
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadPatients();
@@ -58,20 +59,27 @@ export class PatientsComponent implements OnInit, OnDestroy {
     );
   }
 
-  deletePatient(id: number) {
-    if (!confirm('Are you sure you want to delete this patient?')) return;
+deletePatient(id: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '350px',
+    data: { message: 'Are you sure you want to delete this patient?' }
+  });
 
-    this.store.dispatch(new DeletePatient(id)).subscribe({
-      next: () => {
-        this.patients$.pipe(take(1)).subscribe(patients => {
-          if (patients.length === 1 && this.currentPage > 1) {
-            this.currentPage--;
-          }
-          this.loadPatients();
-        });
-      }
-    });
-  }
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.store.dispatch(new DeletePatient(id)).subscribe({
+        next: () => {
+          this.patients$.pipe(take(1)).subscribe(patients => {
+            if (patients.length === 1 && this.currentPage > 1) {
+              this.currentPage--;
+            }
+            this.loadPatients();
+          });
+        }
+      });
+    }
+  });
+}
 
   updatePatient(id: number) {
     this.router.navigate(['/patients/update', id]);

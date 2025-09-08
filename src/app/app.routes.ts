@@ -7,6 +7,7 @@ import { AuthGuard } from '../guard/auth.guard';
 import { PatientsComponent } from './dashboard/patients/patients.component';
 import { AddPatient } from '../stores/Patient/patient.actions';
 import { AddPatientComponent } from './dashboard/patients/add-patient/add-patient.component';
+import { ProvidersComponent } from './dashboard/providers/providers.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent} ,
@@ -16,5 +17,6 @@ export const routes: Routes = [
     {path:'patients',component:PatientsComponent,canActivate:[AuthGuard],data:{ roles: ['Staff'] }},
     {path:'patients/add',component:AddPatientComponent,canActivate:[AuthGuard],data:{ roles: [,'Staff'] }},
     {path:'patients/update/:id',component:AddPatientComponent,canActivate:[AuthGuard],data:{ roles: ['Staff',] }},
+    {path:'providers',component:ProvidersComponent,canActivate:[AuthGuard]},
     {path:'**',component:NotFoundComponent }
 ];

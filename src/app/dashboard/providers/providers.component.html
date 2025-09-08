@@ -1,0 +1,28 @@
+<div class="providers-container">
+  <h2>Providers</h2>
+
+  <!-- Add button -->
+  <div class="toolbar">
+    <button (click)="addProvider()">➕ Add Provider</button>
+  </div>
+
+  <!-- Provider List -->
+  <div class="providers-list">
+    @for (provider of providers$ | async; track provider.providerId) {
+      <div class="provider-card">
+        <div class="details">
+          <h3>{{ provider.firstName }} {{ provider.lastName }}</h3>
+          <p>Specialization: {{ provider.specialization }}</p>
+          <p>Email: {{ provider.email }}</p>
+          <p>Phone: {{ provider.phoneNumber }}</p>
+          <p>Status: {{ provider.isActive ? 'Active' : 'Inactive' }}</p>
+        </div>
+
+        <div class="actions">
+          <button (click)="editProvider(provider.providerId)">Edit</button>
+          <button (click)="deleteProvider(provider.providerId)">Delete</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
