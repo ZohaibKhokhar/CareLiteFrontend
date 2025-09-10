@@ -7,6 +7,8 @@ import { of } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { changePassword, Login, Logout, Register } from './auth.actions';
 import { SnackbarService } from '../../services/toast.service';
+import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 
 export interface AuthStateModel {
   token: string | null;
@@ -28,7 +30,23 @@ export interface AuthStateModel {
 })
 @Injectable()
 export class AuthState {
-  constructor(private http: HttpClient,private toast: SnackbarService) {}
+  constructor(private http: HttpClient,private toast: SnackbarService,private router:Router,private store:Store) {}
+
+  private logoutTimer: any;
+
+
+private startAutoLogout(duration: number) {
+  if (this.logoutTimer) {
+    clearTimeout(this.logoutTimer);
+  }
+
+  this.logoutTimer = setTimeout(() => {
+    this.store.dispatch(new Logout('Session expired. Please login again.'));
+    this.router.navigate(['/login']);
+  }, duration);
+}
+
+
 
   // Selectors
   @Selector()
@@ -68,6 +86,7 @@ export class AuthState {
             loading: false,
             error: null
           });
+           this.startAutoLogout(60*60*1000); 
         } else {
           this.toast.error('Login failed');
           ctx.patchState({ loading: false, error: 'Invalid login response' });
@@ -78,7 +97,7 @@ export class AuthState {
           loading: false,
           error: error?.error?.message || 'Login failed'
         });
-        return of(error); // Prevents breaking the observable chain
+        return of(error); 
       })
     );
   }
@@ -90,6 +109,8 @@ export class AuthState {
     return this.http.post(`${environment.baseUrl}/User/register`, action.data).pipe(
       tap(() => {
         ctx.patchState({ loading: false, error: null });
+          this.toast.success('Registration successful! Please login.');
+          this.router.navigate(['/login']);
       }),
       catchError((error) => {
         this.toast.error('Please Enter Valid Data');
@@ -102,20 +123,26 @@ export class AuthState {
     );
   }
   
+@Action(Logout)
+logout(ctx: StateContext<AuthStateModel>, action: Logout) {
+  sessionStorage.removeItem(environment.tokenKey);
+  sessionStorage.removeItem(environment.roleKey);
 
-  @Action(Logout)
-  logout(ctx: StateContext<AuthStateModel>) {
-    sessionStorage.removeItem(environment.tokenKey);
-    sessionStorage.removeItem(environment.roleKey);
-    this.toast.success('Logged out successfully');
-    ctx.setState({
-      token: null,
-      user: null,
-      isAuthenticated: false,
-      loading: false,
-      error: null
-    });
+  if (action.message) {
+    this.toast.error(action.message); 
+  } else {
+    this.toast.success('Logged out successfully'); 
   }
+
+  ctx.setState({
+    token: null,
+    user: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null
+  });
+}
+
 
   @Action(changePassword)
   changePassword(ctx: StateContext<AuthStateModel>,action:changePassword) {

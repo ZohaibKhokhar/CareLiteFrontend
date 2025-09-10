@@ -11,6 +11,7 @@ export class Register {
 
 export class Logout {
   static readonly type = '[Auth] Logout';
+  constructor(public message?: string) {} 
 }
 
 export class changePassword{

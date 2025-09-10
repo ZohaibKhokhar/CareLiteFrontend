@@ -31,7 +31,6 @@ export class PatientsComponent implements OnInit, OnDestroy {
   sortBy = 'PatientName';
   sortOrder: 'asc' | 'desc' = 'asc';
 
-  // Expose Math for template usage (e.g., Math.ceil)
   Math = Math;
 
   constructor(private store: Store, private router: Router, private dialog: MatDialog) {}

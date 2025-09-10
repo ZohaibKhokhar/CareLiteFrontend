@@ -14,13 +14,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ProviderState } from '../stores/provider/provider.state';
+import { VisitState } from '../stores/visit/visit.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()), 
     importProvidersFrom(
-      NgxsModule.forRoot([AuthState, PatientState,ProviderState])
+      NgxsModule.forRoot([AuthState, PatientState,ProviderState,VisitState])
     ),
     {
       provide: HTTP_INTERCEPTORS,

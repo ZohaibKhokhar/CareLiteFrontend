@@ -1,0 +1,55 @@
+<div class="calendar-container">
+  <h2>Weekly Calendar</h2>
+
+  <!-- Controls -->
+  <form [formGroup]="form" class="calendar-controls">
+    <label for="provider">Provider:</label>
+    <select id="provider" formControlName="providerId">
+      <option [ngValue]="null">-- Select Provider --</option>
+      @for (p of providers$ | async; track p.providerId) {
+        <option [ngValue]="p.providerId">{{ p.firstName }} {{ p.lastName }}</option>
+      }
+    </select>
+
+    <label for="weekStart">Week Starting:</label>
+    <input type="date" id="weekStart" formControlName="weekStart" />
+
+    <button type="button" (click)="loadWeek()">Load Week</button>
+    <button type="button" (click)="prevWeek()">Previous</button>
+    <button type="button" (click)="nextWeek()">Next</button>
+  </form>
+
+
+  <div class="calendar-grid">
+
+    <div class="calendar-row header">
+      <div class="time-col">Time</div>
+      @for (day of weekDays; track day) {
+        <div class="day-col">{{ day | date: 'EEE MMM d' }}</div>
+      }
+    </div>
+
+
+    <div class="calendar-body">
+      @for (slot of getTimeSlots(); track slot.label) {
+        <div class="calendar-row">
+          <div class="time-col">{{ slot.label }}</div>
+
+          @for (day of weekDays; track day) {
+            <div class="calendar-cell">
+              @for (visit of (visits$ | async) ?? []; track visit.visitId) {
+                @if (isVisitInCell(visit, day, slot)) {
+                  <div class="calendar-event">
+                    {{ visit.createdAt }}<br />
+                    {{ visit.startTime | date: 'shortTime' }}
+                    ({{ visit.durationMinutes }}m)
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

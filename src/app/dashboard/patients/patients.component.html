@@ -2,15 +2,14 @@
   <div class="header-section">
     <h2>Patients List</h2>
 
-    <!-- Search -->
     <input type="text" placeholder="Search patients..." (input)="onSearchChange($event)" />
 
-    <!-- Add Patient -->
+   
     <button class="add-btn" (click)="navigateToAddPatient()">+ Add Patient</button>
   </div>
 
   <div class="filter-section">
-    <!-- Page Size -->
+  
     <label for="pageSize">Page Size:</label>
     <select id="pageSize" (change)="onPageSizeChange($event)">
       <option [value]="5">5</option>
@@ -19,14 +18,14 @@
       <option [value]="50">50</option>
     </select>
 
-    <!-- Sort By -->
+   
     <label for="sortBy">Sort By:</label>
     <select id="sortBy" (change)="onSortChange($event)">
       <option value="PatientName" selected>Patient Name</option>
       <option value="CreatedAt">Created At</option>
     </select>
 
-    <!-- Sort Order -->
+ 
     <label for="sortOrder">Order:</label>
     <select id="sortOrder" (change)="onSortOrderChange($event)">
       <option value="asc" selected>Ascending</option>

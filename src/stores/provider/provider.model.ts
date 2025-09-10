@@ -4,7 +4,7 @@ export interface Provider {
   lastName: string;
   specialization: string;
   email: string;
-  phoneNumber: string;
+  phone: string;
   isActive: boolean;
   createdAt: string;
 }

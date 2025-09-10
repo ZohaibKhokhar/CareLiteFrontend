@@ -1,6 +1,6 @@
 // patient.state.ts
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -9,6 +9,9 @@ import { PatientStateModel } from './patient.state.model';
 import { GetPatients, GetPatientById, AddPatient, UpdatePatient,DeletePatient, SearchPatients } from './patient.actions';
 import { environment } from '../../environment/environment';
 import { PatientRead } from '../../models/Patient/patient-read.model';
+import { SnackbarService } from '../../services/toast.service';
+import { Router } from '@angular/router';
+
 @State<PatientStateModel>({
   name: 'patients',
 defaults: {
@@ -26,7 +29,10 @@ export class PatientState {
 
   constructor(private http: HttpClient) {}
 
-  // SELECTORS
+  private toast=inject(SnackbarService);
+  private router=inject(Router);
+
+
   @Selector()
   static getPatients(state: PatientStateModel): PatientRead[] {
     return state.patients;
@@ -88,6 +94,8 @@ export class PatientState {
     ctx.patchState({ loading: true, error: null });
     return this.http.post<PatientRead>(this.apiUrl, payload).pipe(
       tap(newPatient => {
+          this.router.navigate(['/patients']);
+          this.toast.success('Patient updated successfully');
         const patients = [...ctx.getState().patients, newPatient];
         ctx.patchState({ patients, loading: false });
       }),

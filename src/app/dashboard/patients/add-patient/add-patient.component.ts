@@ -69,8 +69,7 @@ export class AddPatientComponent implements OnInit {
     if (this.isEditMode) {
       this.store.dispatch(new UpdatePatient(this.patientId, patientData)).subscribe({
         next: () =>{
-          this.router.navigate(['/patients']);
-          this.toast.success('Patient updated successfully');
+          //nothing
         },
         error: () => this.toast.error('Failed to update patient')
       });

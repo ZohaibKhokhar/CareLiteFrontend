@@ -8,6 +8,10 @@ import { PatientsComponent } from './dashboard/patients/patients.component';
 import { AddPatient } from '../stores/Patient/patient.actions';
 import { AddPatientComponent } from './dashboard/patients/add-patient/add-patient.component';
 import { ProvidersComponent } from './dashboard/providers/providers.component';
+import { VisitSchedulerComponent } from './dashboard/visit-scheduler/visit-scheduler.component';
+import { WeeklyCalendarComponent } from './dashboard/weekly-calendar/weekly-calendar.component';
+import { VisitsComponent } from './dashboard/visits/visits.component';
+import { AddVisit } from '../stores/visit/visit.actions';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent} ,
@@ -18,5 +22,9 @@ export const routes: Routes = [
     {path:'patients/add',component:AddPatientComponent,canActivate:[AuthGuard],data:{ roles: [,'Staff'] }},
     {path:'patients/update/:id',component:AddPatientComponent,canActivate:[AuthGuard],data:{ roles: ['Staff',] }},
     {path:'providers',component:ProvidersComponent,canActivate:[AuthGuard]},
+    {path:'visit-scheduler',component:VisitSchedulerComponent,canActivate:[AuthGuard]},
+    {path:'weekly-calender',component:WeeklyCalendarComponent,canActivate:[AuthGuard]},
+    {path:'visits',component:VisitsComponent,canActivate:[AuthGuard]},
+    {path:'update-visit/:id',component:VisitSchedulerComponent,canActivate:[AuthGuard]},
     {path:'**',component:NotFoundComponent }
 ];

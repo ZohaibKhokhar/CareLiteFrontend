@@ -10,9 +10,10 @@
 
     <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
 
+
       <div class="form-group">
         <label for="patientName">Name:</label>
-        <input id="patientName" formControlName="patientName" type="text" />
+        <input id="patientName" formControlName="patientName" type="text" appAlphaSpaceOnly />
         @if(patientForm.get('patientName')?.touched && patientForm.get('patientName')?.invalid) {
           <div class="error">
             Name is required and must be less than 100 characters.
@@ -20,36 +21,64 @@
         }
       </div>
 
+ 
       <div class="form-group">
         <label for="patientAddress">Address:</label>
         <textarea id="patientAddress" formControlName="patientAddress"></textarea>
+        @if(patientForm.get('patientAddress')?.touched && patientForm.get('patientAddress')?.invalid) {
+          <div class="error">
+            Address is required and must be less than 200 characters.
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="dateOfBirth">Date of Birth:</label>
         <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
+        @if(patientForm.get('dateOfBirth')?.touched && patientForm.get('dateOfBirth')?.invalid) {
+          <div class="error">
+            Date of Birth is required and cannot be in the future.
+          </div>
+        }
       </div>
 
+ 
       <div class="form-group">
         <label for="gender">Gender:</label>
         <select id="gender" formControlName="gender">
-        @for(gender of genders; track gender){
+          @for(gender of genders; track gender){
             <option [value]="gender">{{gender}}</option>
+          }
+        </select>
+        @if(patientForm.get('gender')?.touched && patientForm.get('gender')?.invalid) {
+          <div class="error">
+            Gender must be Male, Female, or Other.
+          </div>
         }
-    
-
-      </select>
       </div>
 
+ 
       <div class="form-group">
         <label for="phoneNumber">Phone Number:</label>
         <input id="phoneNumber" formControlName="phoneNumber" type="text" />
+        @if(patientForm.get('phoneNumber')?.touched && patientForm.get('phoneNumber')?.invalid) {
+          <div class="error">
+            Enter a valid phone number (10–15 digits).
+          </div>
+        }
       </div>
 
+   
       <div class="form-group">
         <label for="email">Email:</label>
         <input id="email" formControlName="email" type="email" />
+        @if(patientForm.get('email')?.touched && patientForm.get('email')?.invalid) {
+          <div class="error">
+            Enter a valid email address.
+          </div>
+        }
       </div>
+
 
       <div class="form-actions">
         <button type="submit" [disabled]="patientForm.invalid">

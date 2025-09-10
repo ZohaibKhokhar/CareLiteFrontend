@@ -1,0 +1,39 @@
+<div class="visits-container">
+  <h2>All Visits</h2>
+
+  <div *ngIf="visits$ | async as visits; else loading">
+    <table class="visits-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Patient</th>
+          <th>Provider</th>
+          <th>Start Time</th>
+          <th>Duration</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visit of visits">
+          <td>{{ visit.visitId }}</td>
+          <td>{{ visit.patientId }}</td>
+          <td>{{ visit.providerId }}</td>
+          <td>{{ visit.startTime }}</td>
+          <td>{{ visit.durationMinutes }} mins</td>
+          <td>
+            <button class="btn-update" (click)="onUpdate(visit.visitId)">Update</button>
+            <button class="btn-delete" (click)="onDelete(visit.visitId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="visits.length === 0" class="empty">
+      No visits found.
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p>Loading visits...</p>
+  </ng-template>
+</div>

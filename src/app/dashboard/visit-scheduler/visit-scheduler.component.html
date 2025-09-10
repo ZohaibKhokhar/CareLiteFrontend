@@ -1,0 +1,62 @@
+<div class="scheduler">
+  <h2>Schedule a Visit</h2>
+
+  <form [formGroup]="form">
+    <!-- Provider -->
+    <label for="provider">Provider:</label>
+    <select id="provider" formControlName="providerId">
+      <option [ngValue]="null">-- Select Provider --</option>
+      @for (provider of providers$ | async; track provider.providerId) {
+        <option [ngValue]="provider.providerId">{{ provider.firstName }}</option>
+      }
+    </select>
+
+    <!-- Date -->
+     <label for="date">Date:</label>
+     <input type="date" id="date" formControlName="date" min="{{ today }}" />
+
+
+    <!-- Patient -->
+    <label for="patient">Patient:</label>
+    <select id="patient" formControlName="patientId">
+      <option [ngValue]="null">-- Select Patient --</option>
+      @for (patient of patients$ | async; track patient.patientID) {
+        <option [ngValue]="patient.patientID">{{ patient.patientName }}</option>
+      }
+    </select>
+
+<!-- Duration -->
+<label for="duration">Duration:</label>
+<select id="duration" formControlName="duration" (change)="loadSlots()">
+  <option value="" disabled selected>Select Duration</option>
+  <option [value]="15">15 Minutes</option>
+  <option [value]="30">30 Minutes</option>
+  <option [value]="60">60 Minutes</option>
+</select>
+
+    <button type="button" (click)="loadSlots()" [disabled]="!form.get('providerId')?.value">
+      Load Slots
+    </button>
+
+  </form>
+
+  <!-- Available Slots -->
+  <h3>Available Slots</h3>
+  <div class="slots">
+    @for (slot of slots$ | async; track $index) {
+      <button type="button"
+              (click)="selectedSlot = slot"
+              [disabled]="slot.isBooked"
+              [class.selected]="selectedSlot === slot">
+        {{ slot.start | date:'shortTime' }} - {{ slot.end | date:'shortTime' }}
+        <span *ngIf="slot.isBooked">(Booked)</span>
+      </button>
+    }
+  </div>
+
+  <!-- Confirm -->
+<button [disabled]="!form.valid || !selectedSlot" (click)="scheduleVisit()">
+  {{ isEditMode ? 'Update Visit' : 'Confirm Visit' }}
+</button>
+
+</div>

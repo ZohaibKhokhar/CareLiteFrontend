@@ -46,9 +46,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.store.dispatch(new Register(this.registerForm.value)).subscribe({
         next: () => {
-          this.successMessage = 'Registration successful! Please login.';
-          alert(this.successMessage);
-          this.router.navigate(['/login']);
+          //nothing
         },
         error: () => {
          console.log("resgiteration failed");
