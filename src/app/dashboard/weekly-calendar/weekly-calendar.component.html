@@ -7,7 +7,9 @@
     <select id="provider" formControlName="providerId">
       <option [ngValue]="null">-- Select Provider --</option>
       @for (p of providers$ | async; track p.providerId) {
-        <option [ngValue]="p.providerId">{{ p.firstName }} {{ p.lastName }}</option>
+        <option [ngValue]="p.providerId">
+          {{ p.firstName }} {{ p.lastName }}
+        </option>
       }
     </select>
 
@@ -19,37 +21,25 @@
     <button type="button" (click)="nextWeek()">Next</button>
   </form>
 
+<mwl-calendar-week-view
+  [viewDate]="viewDate"
+  [events]="calendarEvents"
+  [hourSegments]="4"
+  [hourSegmentHeight]="50"
+  [dayStartHour]="9"
+  [dayEndHour]="18"
+  [eventTitleTemplate]="eventTitleTemplate">
+</mwl-calendar-week-view>
 
-  <div class="calendar-grid">
-
-    <div class="calendar-row header">
-      <div class="time-col">Time</div>
-      @for (day of weekDays; track day) {
-        <div class="day-col">{{ day | date: 'EEE MMM d' }}</div>
-      }
-    </div>
-
-
-    <div class="calendar-body">
-      @for (slot of getTimeSlots(); track slot.label) {
-        <div class="calendar-row">
-          <div class="time-col">{{ slot.label }}</div>
-
-          @for (day of weekDays; track day) {
-            <div class="calendar-cell">
-              @for (visit of (visits$ | async) ?? []; track visit.visitId) {
-                @if (isVisitInCell(visit, day, slot)) {
-                  <div class="calendar-event">
-                    {{ visit.createdAt }}<br />
-                    {{ visit.startTime | date: 'shortTime' }}
-                    ({{ visit.durationMinutes }}m)
-                  </div>
-                }
-              }
-            </div>
-          }
-        </div>
-      }
-    </div>
+<ng-template #eventTitleTemplate let-event="event">
+  <div>
+    <strong>Visit #{{ event.meta?.visitId }}</strong><br />
+    Provider: {{ event.meta?.providerId }}<br />
+    Created: {{ event.meta?.createdAt | date: 'short' }}<br />
+    Duration: {{ event.meta?.durationMinutes }}m<br />
+    Completed: {{ event.meta?.isCompleted ? 'Yes' : 'No' }}
   </div>
+</ng-template>
+
+
 </div>

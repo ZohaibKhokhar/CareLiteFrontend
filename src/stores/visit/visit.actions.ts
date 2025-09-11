@@ -18,6 +18,11 @@ export class LoadVisitsForWeek {
   constructor(public providerId: number, public weekStart: string) {} 
 }
 
+export class GetVisitById {
+  static readonly type = '[Visit] Get Visit By Id';
+  constructor(public visitId: number) {}
+}
+
 
 export class AddVisit {
   static readonly type = '[Visits] Add';
@@ -27,7 +32,6 @@ export class UpdateVisit {
   static readonly type = '[Visit] Update';
   constructor(public visit: Visit) {}
 }
-
 
 
 export class DeleteVisit {

@@ -62,12 +62,10 @@ export class PatientState {
   // ACTIONS
   @Action(GetPatients)
   getPatients(ctx: StateContext<PatientStateModel>) {
-    console.log('fetching data');
     ctx.patchState({ loading: true, error: null });
     return this.http.get<PatientRead[]>(this.apiUrl).pipe(
       tap(patients => {
         ctx.patchState({ patients, loading: false });
-        console.log('Patients fetched', patients);
       }),
       catchError(error => {
         ctx.patchState({ error: error.message, loading: false });
@@ -128,6 +126,7 @@ export class PatientState {
     ctx.patchState({ loading: true, error: null });
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
+        this.toast.error('Patient deleted successfully');
         const patients = ctx.getState().patients.filter(p => p.patientID !== id);
         ctx.patchState({ patients, loading: false });
       }),

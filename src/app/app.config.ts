@@ -1,4 +1,3 @@
-
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -10,18 +9,27 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ProviderState } from '../stores/provider/provider.state';
 import { VisitState } from '../stores/visit/visit.state';
+
+// angular-calendar
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()), 
     importProvidersFrom(
-      NgxsModule.forRoot([AuthState, PatientState,ProviderState,VisitState])
+      NgxsModule.forRoot([AuthState, PatientState, ProviderState, VisitState]),
+      CalendarModule.forRoot({
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      }),
+      MatDialogModule,
+      MatButtonModule
     ),
     {
       provide: HTTP_INTERCEPTORS,

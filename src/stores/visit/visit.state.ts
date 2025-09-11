@@ -9,6 +9,7 @@ import { environment } from '../../environment/environment';
 import { ClearProviderSlots } from './visit.actions';
 import { SnackbarService } from '../../services/toast.service';
 import { UpdateVisit } from './visit.actions';
+import { GetVisitById } from './visit.actions';
 
 
 export interface VisitStateModel {
@@ -16,6 +17,7 @@ export interface VisitStateModel {
   weeklyVisits: Visit[];
   providerSlots: Slot[];
   loading: boolean;
+  selectedVisit: Visit | null;   
 }
 
 
@@ -27,6 +29,7 @@ export interface VisitStateModel {
     visits: [],
     providerSlots: [],
     loading: false,
+     selectedVisit: null           
   }
 })
 @Injectable()
@@ -50,6 +53,11 @@ export class VisitState {
   @Selector()
   static providerSlots(state: VisitStateModel) {
     return state.providerSlots;
+  }
+
+   @Selector()
+  static selectedVisit(state: VisitStateModel) {
+    return state.selectedVisit;
   }
 
 
@@ -84,15 +92,18 @@ loadProviderSlots(ctx: StateContext<VisitStateModel>, action: LoadProviderSlots)
     );
   }
 
-
-  @Action(UpdateVisit)
+@Action(UpdateVisit)
 updateVisit(ctx: StateContext<VisitStateModel>, action: UpdateVisit) {
   return this.http.put<Visit>(`${this.apiUrl}/${action.visit.visitId}`, action.visit).pipe(
     tap(updatedVisit => {
       this.toast.success('Visit updated successfully');
       const state = ctx.getState();
+      const safeVisits = (state.visits || []).filter(v => v != null); // remove nulls
+
       ctx.patchState({
-        visits: state.visits.map(v => v.visitId === updatedVisit.visitId ? updatedVisit : v)
+        visits: safeVisits.map(v => 
+          v.visitId === updatedVisit?.visitId ? { ...v, ...updatedVisit } : v
+        )
       });
     })
   );
@@ -103,6 +114,7 @@ updateVisit(ctx: StateContext<VisitStateModel>, action: UpdateVisit) {
   deleteVisit(ctx: StateContext<VisitStateModel>, action: DeleteVisit) {
     return this.http.delete<void>(`${this.apiUrl}/${action.visitId}`).pipe(
       tap(() => {
+        this.toast.success('Visit deleted successfully');
         const state = ctx.getState();
         ctx.patchState({ visits: state.visits.filter(v => v.visitId !== action.visitId) });
       })
@@ -126,5 +138,19 @@ updateVisit(ctx: StateContext<VisitStateModel>, action: UpdateVisit) {
   clearProviderSlots(ctx: StateContext<VisitStateModel>) {
   ctx.patchState({ providerSlots: [] });
    }
+
+    @Action(GetVisitById)
+  getVisitById(ctx: StateContext<VisitStateModel>, action: GetVisitById) {
+    ctx.patchState({ loading: true });
+    return this.http.get<Visit>(`${this.apiUrl}/${action.visitId}`).pipe(
+      tap(visit => {
+        ctx.patchState({
+          selectedVisit: visit,
+          loading: false
+        });
+      })
+    );
+  }
+
 
 }

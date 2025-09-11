@@ -5,4 +5,5 @@ export interface Visit {
   startTime: string; // ISO string
   durationMinutes: number;
   createdAt?: string;
+  isCompleted:boolean;
 }

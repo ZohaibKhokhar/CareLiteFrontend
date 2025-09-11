@@ -1,0 +1,115 @@
+.visits-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: Arial, sans-serif;
+}
+
+.visits-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.visits-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.visits-table th,
+.visits-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.visits-table th {
+  background-color: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+}
+
+.visits-table tr:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-update,
+.btn-delete {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-update {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-update:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background-color: #a71d2a;
+  transform: translateY(-1px);
+}
+
+.empty {
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+/* visits.component.scss */
+.status-complete {
+  color: green;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: red;
+  font-weight: bold;
+}
+
+
+
+
+.btn-status {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* When visit is complete → show "Mark Pending" button in red */
+.btn-pending {
+  background-color: #f44336; /* red */
+  color: #fff;
+}
+
+/* When visit is pending → show "Mark Complete" button in green */
+.btn-complete {
+  background-color: #4caf50; /* green */
+  color: #fff;
+}
