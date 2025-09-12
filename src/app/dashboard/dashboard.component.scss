@@ -1,43 +1,143 @@
 .dashboard-container {
-  max-width: 1000px;
-  margin: 4rem auto;
+  max-width: 900px;
+  margin: 3rem auto;
   padding: 2rem;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
 
-  h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #2c3e50; // Primary color
-    margin-bottom: 2rem;
+.dashboard-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  position: relative;
+}
+s
+.dashboard-container h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
+}
+
+/* Dashboard links styled as buttons */
+.dashboard-container a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1rem;
+  padding: 1rem 1.8rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Different colors for each role/feature */
+.dashboard-container a[routerLink="/patients"] {
+  background: linear-gradient(135deg, #3498db, #2980b9); /* blue */
+}
+.dashboard-container a[routerLink="/patients"]:hover {
+  background: linear-gradient(135deg, #2980b9, #1f618d);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/providers"] {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad); /* purple */
+}
+.dashboard-container a[routerLink="/providers"]:hover {
+  background: linear-gradient(135deg, #8e44ad, #6c3483);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/visit-scheduler"] {
+  background: linear-gradient(135deg, #f39c12, #e67e22); /* orange */
+}
+.dashboard-container a[routerLink="/visit-scheduler"]:hover {
+  background: linear-gradient(135deg, #e67e22, #ca6f1e);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/weekly-calender"] {
+  background: linear-gradient(135deg, #16a085, #1abc9c); /* teal */
+}
+.dashboard-container a[routerLink="/weekly-calender"]:hover {
+  background: linear-gradient(135deg, #138d75, #148f77);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/visits"] {
+  background: linear-gradient(135deg, #e74c3c, #c0392b); /* red */
+}
+.dashboard-container a[routerLink="/visits"]:hover {
+  background: linear-gradient(135deg, #c0392b, #922b21);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/admin/settings"] {
+  background: linear-gradient(135deg, #2ecc71, #27ae60); /* green */
+}
+.dashboard-container a[routerLink="/admin/settings"]:hover {
+  background: linear-gradient(135deg, #27ae60, #1e8449);
+  transform: translateY(-3px);
+}
+
+.dashboard-container a[routerLink="/clinician/appointments"] {
+  background: linear-gradient(135deg, #34495e, #2c3e50); /* dark slate */
+}
+.dashboard-container a[routerLink="/clinician/appointments"]:hover {
+  background: linear-gradient(135deg, #2c3e50, #1c2833);
+  transform: translateY(-3px);
+}
+
+/* Icons inside buttons */
+.dashboard-container a span::before {
+  font-family: "Font Awesome 6 Free"; /* assumes FA installed */
+  font-weight: 900;
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* Assign icons */
+.dashboard-container a[routerLink="/patients"] span::before {
+  content: "\f0c0"; /* users */
+}
+.dashboard-container a[routerLink="/providers"] span::before {
+  content: "\f0f0"; /* user-md */
+}
+.dashboard-container a[routerLink="/visit-scheduler"] span::before {
+  content: "\f073"; /* calendar */
+}
+.dashboard-container a[routerLink="/weekly-calender"] span::before {
+  content: "\f133"; /* calendar-alt */
+}
+.dashboard-container a[routerLink="/visits"] span::before {
+  content: "\f0fa"; /* hospital */
+}
+.dashboard-container a[routerLink="/admin/settings"] span::before {
+  content: "\f013"; /* cog */
+}
+.dashboard-container a[routerLink="/clinician/appointments"] span::before {
+  content: "\f017"; /* clock */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
   }
 
-  a {
-    display: inline-block;
-    text-decoration: none;
-    background-color: #2c3e50; // Primary color
-    color: #ffffff;
-    padding: 0.8rem 1.6rem;
-    border-radius: 6px;
+  .dashboard-container a {
+    width: 100%;
+    margin: 0.6rem 0;
     font-size: 1rem;
-    margin-left: 10px;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-
-    &:hover {
-      background-color: darken(#2c3e50, 10%);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-
-    span {
-      display: inline-block;
-      letter-spacing: 0.5px;
-    }
   }
 }

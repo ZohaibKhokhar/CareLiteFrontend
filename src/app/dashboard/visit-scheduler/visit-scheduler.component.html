@@ -1,62 +1,70 @@
 <div class="scheduler">
-  <h2>Schedule a Visit</h2>
+  <h2><i class="fas fa-calendar-plus"></i> Schedule a Visit</h2>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" class="scheduler-form">
     <!-- Provider -->
-    <label for="provider">Provider:</label>
-    <select id="provider" formControlName="providerId">
-      <option [ngValue]="null">-- Select Provider --</option>
-      @for (provider of providers$ | async; track provider.providerId) {
-        <option [ngValue]="provider.providerId">{{ provider.firstName }}</option>
-      }
-    </select>
+    <div class="form-group">
+      <label for="provider"><i class="fas fa-user-md"></i> Provider:</label>
+      <select id="provider" formControlName="providerId">
+        <option [ngValue]="null">-- Select Provider --</option>
+        @for (provider of providers$ | async; track provider.providerId) {
+          <option [ngValue]="provider.providerId">{{ provider.firstName }}</option>
+        }
+      </select>
+    </div>
 
     <!-- Date -->
-     <label for="date">Date:</label>
-     <input type="date" id="date" formControlName="date" min="{{ today }}" />
-
+    <div class="form-group">
+      <label for="date"><i class="fas fa-calendar-day"></i> Date:</label>
+      <input type="date" id="date" formControlName="date" min="{{ today }}" />
+    </div>
 
     <!-- Patient -->
-    <label for="patient">Patient:</label>
-    <select id="patient" formControlName="patientId">
-      <option [ngValue]="null">-- Select Patient --</option>
-      @for (patient of patients$ | async; track patient.patientID) {
-        <option [ngValue]="patient.patientID">{{ patient.patientName }}</option>
-      }
-    </select>
+    <div class="form-group">
+      <label for="patient"><i class="fas fa-user"></i> Patient:</label>
+      <select id="patient" formControlName="patientId">
+        <option [ngValue]="null">-- Select Patient --</option>
+        @for (patient of patients$ | async; track patient.patientID) {
+          <option [ngValue]="patient.patientID">{{ patient.patientName }}</option>
+        }
+      </select>
+    </div>
 
-<!-- Duration -->
-<label for="duration">Duration:</label>
-<select id="duration" formControlName="duration" (change)="loadSlots()">
-  <option value="" disabled selected>Select Duration</option>
-  <option [value]="15">15 Minutes</option>
-  <option [value]="30">30 Minutes</option>
-  <option [value]="60">60 Minutes</option>
-</select>
+    <!-- Duration -->
+    <div class="form-group">
+      <label for="duration"><i class="fas fa-clock"></i> Duration:</label>
+      <select id="duration" formControlName="duration" (change)="loadSlots()">
+        <option value="" disabled selected>Select Duration</option>
+        <option [value]="15">15 Minutes</option>
+        <option [value]="30">30 Minutes</option>
+        <option [value]="60">60 Minutes</option>
+      </select>
+    </div>
 
-    <button type="button" (click)="loadSlots()" [disabled]="!form.get('providerId')?.value">
-      Load Slots
+    <!-- Load Slots -->
+    <button type="button" class="btn-load" (click)="loadSlots()" [disabled]="!form.get('providerId')?.value">
+      <i class="fas fa-search"></i> Load Slots
     </button>
-
   </form>
 
   <!-- Available Slots -->
-  <h3>Available Slots</h3>
+  <h3><i class="fas fa-clock"></i> Available Slots</h3>
   <div class="slots">
     @for (slot of slots$ | async; track $index) {
       <button type="button"
               (click)="selectedSlot = slot"
               [disabled]="slot.isBooked"
-              [class.selected]="selectedSlot === slot">
-        {{ slot.start | date:'shortTime' }} - {{ slot.end | date:'shortTime' }}
+              [class.selected]="selectedSlot === slot"
+              [class.booked]="slot.isBooked">
+        <i class="fas fa-clock"></i> {{ slot.start | date:'shortTime' }} - {{ slot.end | date:'shortTime' }}
         <span *ngIf="slot.isBooked">(Booked)</span>
       </button>
     }
   </div>
 
   <!-- Confirm -->
-<button [disabled]="!form.valid || !selectedSlot" (click)="scheduleVisit()">
-  {{ isEditMode ? 'Update Visit' : 'Confirm Visit' }}
-</button>
-
+  <button class="btn-confirm" [disabled]="!form.valid || !selectedSlot" (click)="scheduleVisit()">
+    <i class="fas" [ngClass]="isEditMode ? 'fa-sync-alt' : 'fa-check-circle'"></i>
+    {{ isEditMode ? 'Update Visit' : 'Confirm Visit' }}
+  </button>
 </div>

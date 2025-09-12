@@ -1,85 +1,124 @@
+/* Container (center form) */
 .login-form {
   max-width: 400px;
-  margin: 5rem auto;
+  margin: 5% auto;
   padding: 2rem;
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding-right: 50px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
 
-  .form-title {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-  }
+/* Title */
+.login-form .form-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-weight: 700;
+}
 
-  .form-group {
-    margin-bottom: 1.2rem;
+/* Group wrapper */
+.login-form .form-group {
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
 
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #333;
-    }
+/* Labels */
+.login-form label {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: #34495e;
+  font-weight: 600;
+}
 
-    input {
-      width: 100%;
-      padding: 0.6rem 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
 
-      &:focus {
-        border-color: #2c3e50;
-        outline: none;
-      }
-    }
-  }
+.login-form input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52,152,219,0.3);
+}
 
-  .btn-primary {
-    width: 100%;
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+/* Primary Button */
+.login-form .btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
 
-    &:hover {
-      background-color: #2c3e50;
-    }
+.login-form .btn-primary:hover {
+  background: linear-gradient(135deg, #2980b9, #1f618d);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 
-    &:active {
-      background-color: #2c3e50;
-    }
-  }
+/* Register link */
+.login-form .register-link {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
 
-  .register-link {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
+.login-form .register-link a {
+  color: #3498db;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
 
-    a {
-      color: #2c3e50;
-      text-decoration: none;
-      font-weight: 500;
+.login-form .register-link a:hover {
+  color: #1abc9c;
+  text-decoration: underline;
+}
 
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
+/* Error Message */
+.login-form .error-message {
+  margin-top: 1rem;
+  color: #e74c3c;
+  font-weight: 600;
+  background: #fdecea;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  animation: shake 0.3s ease-in-out;
+}
 
-  .error-message {
-    margin-top: 1rem;
-    color: #e74c3c;
-    font-size: 0.9rem;
-    text-align: center;
-    font-weight: 500;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-form {
+    margin: 2rem;
+    padding: 1.5rem;
   }
 }

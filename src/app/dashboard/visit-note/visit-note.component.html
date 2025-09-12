@@ -1,0 +1,29 @@
+@if (!completed) {
+  <div class="visit-container not-completed">
+    <h2>Visit #{{ visitId }}</h2>
+    <p>This visit is not completed yet. You cannot add or view a note.</p>
+  </div>
+}
+
+@if (completed) {
+  <div class="visit-container completed">
+    <h2>Visit #{{ visitId }} (Completed)</h2>
+
+    @if (visitNote$ | async; as visitNote) {
+      <div>
+        <p><strong>Note:</strong> {{ visitNote.noteText }}</p>
+        <p><strong>Created At:</strong> {{ visitNote.createdAt | date: 'medium' }}</p>
+        <p><strong>Finalized:</strong> {{ visitNote.isFinalized ? 'Yes' : 'No' }}</p>
+      <button class="update-btn" (click)="updateNote()">Update</button>
+<button class="delete-btn" (click)="deleteNote(visitNote.visitNoteId)">Delete</button>
+
+      </div>
+    }
+    @else {
+      <div>
+        <p>No note exists for this visit.</p>
+        <button (click)="addNote()">➕ Add Note</button>
+      </div>
+    }
+  </div>
+}

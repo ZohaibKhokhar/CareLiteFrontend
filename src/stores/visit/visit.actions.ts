@@ -13,6 +13,11 @@ export class LoadProviderSlots {
   ) {}
 }
 
+export class LoadVisitsWithNames {
+  static readonly type = '[Visit] Load Visits With Names';
+}
+
+
 export class LoadVisitsForWeek {
   static readonly type = '[Visit] Load Visits For Week';
   constructor(public providerId: number, public weekStart: string) {} 
@@ -30,6 +35,11 @@ export class AddVisit {
 }
 export class UpdateVisit {
   static readonly type = '[Visit] Update';
+  constructor(public visit: Visit) {}
+}
+
+export class UpdateStatus {
+  static readonly type = '[Visit] Status Update';
   constructor(public visit: Visit) {}
 }
 

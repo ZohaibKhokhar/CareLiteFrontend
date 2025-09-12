@@ -1,17 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store, Select } from '@ngxs/store';
-import { Observable, combineLatest, map, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
 import { Visit } from '../../../stores/visit/visit.model';
-import { LoadVisits, DeleteVisit, UpdateVisit } from '../../../stores/visit/visit.actions';
+import { DeleteVisit, UpdateVisit, LoadVisitsWithNames } from '../../../stores/visit/visit.actions';
 import { VisitState } from '../../../stores/visit/visit.state';
-import { PatientState } from '../../../stores/Patient/patient.state';
-import { ProviderState } from '../../../stores/provider/provider.state';
-import { GetPatients } from '../../../stores/Patient/patient.actions';
-import { LoadProviders } from '../../../stores/provider/provider.action';
-
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -23,7 +17,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatFormField, MatFormFieldControl, MatLabel } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { startWith } from 'rxjs';
+import { VisitWithNames } from '../../../stores/visit/visit-with-names.model';
+import { UpdateStatus } from '../../../stores/visit/visit.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-visits',
@@ -45,61 +42,23 @@ import { startWith } from 'rxjs';
   styleUrls: ['./visits.component.scss']
 })
 export class VisitsComponent implements OnInit {
-  @Select(VisitState.visits) visits$!: Observable<Visit[]>;
-  @Select(PatientState.getPatients) patients$!: Observable<any[]>;
-  @Select(ProviderState.providers) providers$!: Observable<any[]>;
-
-  visitsWithNames$!: Observable<any[]>;
+  @Select(VisitState.visitsWithNames) visits$!:Observable<VisitWithNames[]>;
   displayedColumns: string[] = ['id', 'patient', 'provider', 'startTime', 'duration', 'status', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router,private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new LoadVisits());
+   this.store.dispatch(new LoadVisitsWithNames());
 
-    this.patients$.pipe(
-      tap(patients => {
-        if (!patients || patients.length === 0) this.store.dispatch(new GetPatients());
-      })
-    ).subscribe();
-
-    this.providers$.pipe(
-      tap(providers => {
-        if (!providers || providers.length === 0) this.store.dispatch(new LoadProviders());
-      })
-    ).subscribe();
-
-
-    
-
-
-this.visitsWithNames$ = combineLatest([
-  this.visits$.pipe(startWith([])),
-  this.patients$.pipe(startWith([])),
-  this.providers$.pipe(startWith([]))
-]).pipe(
-  map(([visits, patients, providers]) =>
-    visits.map(v => {
-      const patient = patients.find(p => p.patientID === v.patientId);
-      const provider = providers.find(p => p.providerId === v.providerId);
-      return {
-        ...v,
-        patientName: patient ? patient.patientName : 'Unknown',
-        providerName: provider ? `${provider.firstName} ${provider.lastName}` : 'Unknown'
-      };
-    })
-  )
-);
-
-    this.visitsWithNames$.subscribe({
+    this.visits$.subscribe({
       next:data=>{
         this.dataSource.data=data
          this.dataSource.paginator = this.paginator;
-   this.dataSource.sort = this.sort;
+         this.dataSource.sort = this.sort;
       }
     })
 }
@@ -110,20 +69,37 @@ this.visitsWithNames$ = combineLatest([
     if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
   }
 
-  onDelete(visitId: number) {
-    if (confirm('Are you sure you want to delete this visit?')) {
-      this.store.dispatch(new DeleteVisit(visitId));
-    }
-  }
+onDelete(visitId: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '350px',
+    data: { message: 'Are you sure you want to delete this visit?' }
+  });
 
-  onStatusChange(visit: Visit | null) {
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.store.dispatch(new DeleteVisit(visitId)).subscribe(() => {
+        this.store.dispatch(new LoadVisitsWithNames());
+      });
+    }
+  });
+}
+
+
+  onStatusChange(visit: VisitWithNames | null) {
     if (!visit) return;
+    console.log('here in on status change ',visit.isCompleted);
     const updatedVisit: Visit = { ...visit, isCompleted: !visit.isCompleted };
-    this.store.dispatch(new UpdateVisit(updatedVisit));
-    this.store.dispatch(new LoadVisits());
+    console.log(updatedVisit.isCompleted);
+    this.store.dispatch(new UpdateStatus(updatedVisit));
+  setTimeout(() => this.store.dispatch(new LoadVisitsWithNames()));
   }
 
   onUpdate(visitId: number) {
     this.router.navigate(['/update-visit', visitId]);
+  }
+
+
+  navigatetoNote(visitId:number,completed:boolean){
+    this.router.navigate(['/visit-note',visitId,completed]);
   }
 }

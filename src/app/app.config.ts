@@ -17,13 +17,14 @@ import { VisitState } from '../stores/visit/visit.state';
 // angular-calendar
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { VisitNoteState } from '../stores/visitnote/visitnote.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()), 
     importProvidersFrom(
-      NgxsModule.forRoot([AuthState, PatientState, ProviderState, VisitState]),
+      NgxsModule.forRoot([AuthState, PatientState, ProviderState, VisitState,VisitNoteState]),
       CalendarModule.forRoot({
         provide: DateAdapter,
         useFactory: adapterFactory,

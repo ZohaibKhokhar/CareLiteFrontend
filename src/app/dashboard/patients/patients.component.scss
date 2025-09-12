@@ -1,195 +1,244 @@
+/* === Container === */
 .patient-container {
-  max-width: 1000px;
-  margin: 3rem auto;
+  max-width: 1200px;
+  margin: 2rem auto;
   padding: 2rem;
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  font-family: "Poppins", sans-serif;
+  color: #2c3e50;
+  animation: fadeIn 0.6s ease-in-out;
+}
 
-  .header-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    gap: 0.8rem;
+/* === Header Section === */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-    h2 {
-      color: #2c3e50; // Primary color
-      font-size: 1.8rem;
-      margin: 0;
-    }
+.header-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #34495e;
+  position: relative;
+}
 
-    input[type='text'] {
-      flex: 1;
-      min-width: 200px;
-      padding: 0.6rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
+.header-section h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: #3498db;
+  border-radius: 2px;
+  margin-top: 6px;
+}
 
-      &:focus {
-        border-color: #2c3e50;
-        outline: none;
-      }
-    }
+/* Search Bar */
+.header-section input[type="text"] {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  min-width: 220px;
+}
 
-    .add-btn {
-      background-color: #2c3e50; // Primary
-      color: #fff;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+.header-section input[type="text"]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  outline: none;
+}
 
-      &:hover {
-        background-color: darken(#2c3e50, 10%);
-        transform: translateY(-2px);
-      }
+/* Add Patient Button */
+.add-btn {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
 
-      &:active {
-        transform: translateY(0);
-      }
-    }
-  }
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+}
 
-  .filter-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+/* === Filter Section === */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
 
-    label {
-      font-weight: 500;
-      margin-right: 0.3rem;
-    }
+.filter-section label {
+  font-weight: 600;
+  margin-right: 6px;
+  color: #555;
+}
 
-    select {
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 0.95rem;
+.filter-section select {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
 
-      &:focus {
-        border-color: #2c3e50;
-        outline: none;
-      }
-    }
-  }
+.filter-section select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.25);
+}
 
-  .loading-text,
-  .error-text,
-  .empty-text {
-    text-align: center;
-    font-size: 1rem;
-    margin: 2rem 0;
-    color: #2c3e50; // Primary
-  }
+/* === Loading / Error / Empty States === */
+.loading-text,
+.error-text,
+.empty-text {
+  text-align: center;
+  font-weight: 500;
+  margin-top: 2rem;
+  font-size: 1rem;
+}
 
-  .error-text {
-    color: #e74c3c;
-  }
+.loading-text {
+  color: #3498db;
+}
 
-  .patient-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+.error-text {
+  color: #e74c3c;
+}
 
-    @media (min-width: 768px) {
-      grid-template-columns: 1fr 1fr;
-    }
+.empty-text {
+  color: #7f8c8d;
+}
 
-    .patient-card {
-      background: #f9f9f9;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      border-left: 4px solid #2c3e50; // Primary
+/* === Patient List === */
+.patient-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1.5rem;
+}
 
-      h3 {
-        margin-top: 0;
-        color: #2c3e50;
-      }
+/* Patient Card */
+.patient-card {
+  background: #fdfdfd;
+  border-radius: 14px;
+  padding: 1.3rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-left: 5px solid #3498db;
+}
 
-      p {
-        margin: 0.3rem 0;
-        font-size: 0.95rem;
-        color: #333;
-      }
+.patient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.2);
+}
 
-      .actions {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 0.8rem;
+.patient-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
 
-        button {
-          flex: 1;
-          padding: 0.5rem;
-          border-radius: 6px;
-          border: none;
-          cursor: pointer;
-          font-size: 0.9rem;
-          font-weight: 500;
-          transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.patient-card p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
 
-        .delete-btn {
-          background-color: #e74c3c;
-          color: #fff;
+.patient-card strong {
+  color: #2c3e50;
+}
 
-          &:hover {
-            background-color: darken(#e74c3c, 10%);
-            transform: translateY(-1px);
-          }
-        }
+/* === Actions === */
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
 
-        .update-btn {
-          background-color: #2c3e50;
-          color: #fff;
+.actions button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
 
-          &:hover {
-            background-color: darken(#2c3e50, 10%);
-            transform: translateY(-1px);
-          }
-        }
-      }
-    }
-  }
+/* Delete Button */
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+}
 
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
+.delete-btn:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
 
-    button {
-      background-color: #2c3e50;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+/* Update Button */
+.update-btn {
+  background: #3498db;
+  color: #fff;
+}
 
-      &:hover:enabled {
-        background-color: darken(#2c3e50, 10%);
-        transform: translateY(-1px);
-      }
+.update-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
 
-      &:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-        transform: none;
-      }
-    }
+/* === Pagination Controls === */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #34495e;
+}
 
-    span {
-      font-size: 0.95rem;
-      color: #2c3e50;
-    }
-  }
+.pagination-controls button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.pagination-controls button:hover:not([disabled]) {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.pagination-controls button[disabled] {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }

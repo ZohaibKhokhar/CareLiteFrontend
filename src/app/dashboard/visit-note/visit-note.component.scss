@@ -1,0 +1,124 @@
+/* === General Container === */
+.visit-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: #ffffff;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Headings */
+.visit-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+/* Not Completed Styling */
+.not-completed {
+  border-left: 6px solid #e74c3c;
+  background: #fff5f5;
+}
+
+.not-completed h2 {
+  color: #e74c3c;
+}
+
+.not-completed p {
+  font-size: 1rem;
+  color: #a94442;
+  font-weight: 500;
+}
+
+/* Completed Styling */
+.completed {
+  border-left: 6px solid #27ae60;
+  background: #f6fff8;
+}
+
+.completed h2 {
+  color: #27ae60;
+}
+
+.completed p {
+  font-size: 1rem;
+  margin: 0.4rem 0;
+  color: #34495e;
+}
+
+/* Strong text inside completed section */
+.completed strong {
+  color: #2c3e50;
+}
+
+/* === Buttons === */
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  margin-right: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Add Note Button */
+button:not([class]) {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  color: #fff;
+}
+
+button:not([class]):hover {
+  background: linear-gradient(135deg, #1f6391, #2471a3);
+  transform: translateY(-2px);
+}
+
+/* Update Button */
+.update-btn {
+  background: linear-gradient(135deg, #f39c12, #f1c40f);
+  color: #fff;
+}
+
+.update-btn:hover {
+  background: linear-gradient(135deg, #d68910, #d4ac0d);
+  transform: translateY(-2px);
+}
+
+/* Delete Button */
+.delete-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #c0392b, #922b21);
+  transform: translateY(-2px);
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .visit-container {
+    padding: 1.2rem;
+  }
+
+  button {
+    width: 100%;
+    margin: 0.5rem 0;
+    justify-content: center;
+  }
+}

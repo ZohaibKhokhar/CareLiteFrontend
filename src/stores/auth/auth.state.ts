@@ -1,4 +1,4 @@
-// store/auth.state.ts
+
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -79,6 +79,7 @@ private startAutoLogout(duration: number) {
         if (response?.token) {
           sessionStorage.setItem(environment.roleKey, response.role);
           sessionStorage.setItem(environment.tokenKey, response.token);
+          
           this.toast.success('Login successful');
           ctx.patchState({
             token: response.token,

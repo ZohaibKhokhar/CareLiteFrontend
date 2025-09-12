@@ -1,0 +1,20 @@
+<div class="note-form-container">
+  <h2>{{ isEditMode ? 'Update' : 'Add' }} Note for Visit #{{ visitId }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label for="noteText">Note</label>
+    <textarea
+      id="noteText"
+      formControlName="noteText"
+      rows="5"
+      placeholder="Enter your note here...">
+    </textarea>
+
+    <div class="actions">
+      <button type="submit" [disabled]="form.invalid">
+        {{ isEditMode ? '🔄 Update' : '💾 Save' }}
+      </button>
+      <button type="button" (click)="cancel()">❌ Cancel</button>
+    </div>
+  </form>
+</div>

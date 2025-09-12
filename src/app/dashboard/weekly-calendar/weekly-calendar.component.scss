@@ -1,32 +1,199 @@
+/* === Container Styling === */
 .calendar-container {
-  padding: 1rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Poppins", sans-serif;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
+/* Title */
+.calendar-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  border-left: 6px solid #3f51b5;
+  padding-left: 12px;
+}
+
+/* === Controls === */
 .calendar-controls {
-  margin-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-mwl-calendar-week-view {
+.calendar-controls label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+  color: #34495e;
+}
+
+.calendar-controls select,
+.calendar-controls input[type="date"] {
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #fff;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
 }
 
-.custom-event {
-  padding: 4px 6px;
-  font-size: 12px;
-  background: #1976d2;
+.calendar-controls select:focus,
+.calendar-controls input[type="date"]:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+.calendar-controls button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.calendar-controls button:nth-of-type(1) {
+  background: #3498db;
   color: #fff;
-  border-radius: 4px;
-  line-height: 1.4;
 }
 
-.custom-event strong {
-  font-size: 13px;
-  display: block;
-  margin-bottom: 2px;
+.calendar-controls button:nth-of-type(1):hover {
+  background: #2c80b4;
+}
+
+.calendar-controls button:nth-of-type(2) {
+  background: #f39c12;
+  color: #fff;
+}
+
+.calendar-controls button:nth-of-type(2):hover {
+  background: #d68910;
+}
+
+.calendar-controls button:nth-of-type(3) {
+  background: #27ae60;
+  color: #fff;
+}
+
+.calendar-controls button:nth-of-type(3):hover {
+  background: #1e8449;
+}
+
+/* === Angular Calendar Overrides === */
+
+/* Week View Table */
+.mwl-calendar-week-view {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+/* Day Headers */
+.mwl-calendar-week-view .cal-day-headers {
+  background: #f4f6f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.mwl-calendar-week-view .cal-day-headers .cal-header {
+  padding: 12px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  border-right: 1px solid #e0e0e0;
+}
+
+.mwl-calendar-week-view .cal-day-headers .cal-header:last-child {
+  border-right: none;
+}
+
+/* Time Labels */
+.mwl-calendar-week-view .cal-time-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #7f8c8d;
+}
+
+/* Hour Segments */
+.mwl-calendar-week-view .cal-hour-segment {
+  border-bottom: 1px dashed #eee;
+}
+
+.mwl-calendar-week-view .cal-hour-segment:hover {
+  background: #f9fbfd;
+}
+
+/* === Event Styling === */
+.mwl-calendar-week-view .cal-event {
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mwl-calendar-week-view .cal-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Color Coding for Events (based on completion status) */
+.mwl-calendar-week-view .cal-event[ng-reflect-title*="Complete"],
+.mwl-calendar-week-view .cal-event.complete {
+  background: #27ae60 !important;
+}
+
+.mwl-calendar-week-view .cal-event[ng-reflect-title*="Pending"],
+.mwl-calendar-week-view .cal-event.pending {
+  background: #e67e22 !important;
+}
+
+.mwl-calendar-week-view .cal-event[ng-reflect-title*="Cancelled"],
+.mwl-calendar-week-view .cal-event.cancelled {
+  background: #e74c3c !important;
+}
+
+/* === Event Tooltip/Template === */
+.ng-template div {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #2c3e50;
+}
+
+.ng-template strong {
+  color: #3f51b5;
+  font-weight: 600;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .calendar-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-controls button {
+    width: 100%;
+  }
+
+  .mwl-calendar-week-view .cal-day-headers .cal-header {
+    font-size: 0.8rem;
+  }
 }

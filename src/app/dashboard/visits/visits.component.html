@@ -57,6 +57,7 @@
         <button mat-button (click)="onStatusChange(visit)">
           {{ visit.isCompleted ? 'Mark Pending' : 'Mark Complete' }}
         </button>
+            <button mat-button color="info" (click)="navigatetoNote(visit.visitId,visit.isCompleted)">View VisitNote</button>
       </td>
     </ng-container>
 

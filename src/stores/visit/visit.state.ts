@@ -10,12 +10,15 @@ import { ClearProviderSlots } from './visit.actions';
 import { SnackbarService } from '../../services/toast.service';
 import { UpdateVisit } from './visit.actions';
 import { GetVisitById } from './visit.actions';
-
+import { VisitWithNames } from './visit-with-names.model';
+import { LoadVisitsWithNames } from './visit.actions';
+import { UpdateStatus } from './visit.actions';
 
 export interface VisitStateModel {
   visits: Visit[];
   weeklyVisits: Visit[];
   providerSlots: Slot[];
+  visitsWithNames: VisitWithNames[];  
   loading: boolean;
   selectedVisit: Visit | null;   
 }
@@ -28,6 +31,7 @@ export interface VisitStateModel {
     weeklyVisits: [],
     visits: [],
     providerSlots: [],
+    visitsWithNames: [],   
     loading: false,
      selectedVisit: null           
   }
@@ -59,6 +63,12 @@ export class VisitState {
   static selectedVisit(state: VisitStateModel) {
     return state.selectedVisit;
   }
+
+  @Selector()
+static visitsWithNames(state: VisitStateModel) {
+  return state.visitsWithNames;
+}
+
 
 
   @Action(LoadVisits)
@@ -151,6 +161,34 @@ updateVisit(ctx: StateContext<VisitStateModel>, action: UpdateVisit) {
       })
     );
   }
+
+  @Action(LoadVisitsWithNames)
+loadVisitsWithNames(ctx: StateContext<VisitStateModel>) {
+  ctx.patchState({ loading: true });
+  return this.http.get<VisitWithNames[]>(`${this.apiUrl}/with-details`).pipe(
+    tap(visitsWithNames => {
+      ctx.patchState({ visitsWithNames, loading: false });
+    })
+  );
+}
+
+
+@Action(UpdateStatus)
+updateStatus(ctx: StateContext<VisitStateModel>, action: UpdateVisit) {
+  return this.http.put<Visit>(`${this.apiUrl}/${action.visit.visitId}`, action.visit).pipe(
+    tap(updatedVisit => {
+      this.toast.success('status changed fot visit');
+      const state = ctx.getState();
+      
+      ctx.patchState({
+        visitsWithNames: state.visitsWithNames.map(v => 
+          v.visitId === updatedVisit?.visitId ? { ...v, ...updatedVisit } : v
+        )
+      });
+    })
+  );
+}
+
 
 
 }

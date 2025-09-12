@@ -1,115 +1,171 @@
+/* === Container Styling === */
 .visits-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 1.5rem;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  font-family: Arial, sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Poppins", sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Title */
 .visits-container h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 1.6rem;
-  color: #333;
-}
-
-.visits-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-
-.visits-table th,
-.visits-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.visits-table th {
-  background-color: #f8f9fa;
-  color: #555;
+  font-size: 1.8rem;
   font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  border-left: 6px solid #3f51b5;
+  padding-left: 10px;
 }
 
-.visits-table tr:hover {
-  background-color: #f9f9f9;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.btn-update,
-.btn-delete {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  margin-right: 6px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-update {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.btn-update:hover {
-  background-color: #0056b3;
-  transform: translateY(-1px);
-}
-
-.btn-delete {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.btn-delete:hover {
-  background-color: #a71d2a;
-  transform: translateY(-1px);
-}
-
-.empty {
-  text-align: center;
+/* === Search Field === */
+mat-form-field {
   font-size: 1rem;
-  color: #666;
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
 }
-/* visits.component.scss */
+
+mat-form-field input {
+  padding: 0.6rem;
+}
+
+/* === Table Styling === */
+table {
+  width: 100%;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header Row */
+.mat-header-cell {
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #f4f6f8;
+  color: #34495e;
+  padding: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Table Rows */
+.mat-row {
+  transition: background-color 0.25s ease;
+}
+
+.mat-row:hover {
+  background-color: #f9fbfd;
+}
+
+/* Table Cells */
+.mat-cell {
+  padding: 12px;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  vertical-align: middle;
+}
+
+/* === Status Badges === */
+.status-complete,
+.status-pending {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
 .status-complete {
-  color: green;
-  font-weight: bold;
+  background: #e8f5e9;
+  color: #27ae60;
+  border: 1px solid #2ecc71;
 }
 
 .status-pending {
-  color: red;
-  font-weight: bold;
+  background: #fff4e5;
+  color: #e67e22;
+  border: 1px solid #f39c12;
 }
 
-
-
-
-.btn-status {
+/* === Actions Column === */
+.mat-cell button {
+  margin-right: 6px;
   padding: 6px 12px;
-  border: none;
   border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: bold;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
 }
 
-/* When visit is complete → show "Mark Pending" button in red */
-.btn-pending {
-  background-color: #f44336; /* red */
+/* Update Button */
+.mat-cell button[color="primary"] {
+  background: #3498db;
   color: #fff;
 }
 
-/* When visit is pending → show "Mark Complete" button in green */
-.btn-complete {
-  background-color: #4caf50; /* green */
+.mat-cell button[color="primary"]:hover {
+  background: #2c80b4;
+  transform: translateY(-2px);
+}
+
+/* Delete Button */
+.mat-cell button[color="warn"] {
+  background: #e74c3c;
   color: #fff;
+}
+
+.mat-cell button[color="warn"]:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Custom Info Button */
+.mat-cell button[color="info"] {
+  background: #8e44ad;
+  color: #fff;
+}
+
+.mat-cell button[color="info"]:hover {
+  background: #732d91;
+  transform: translateY(-2px);
+}
+
+/* Generic Button Styling */
+.mat-cell button:not([color]) {
+  background: #95a5a6;
+  color: #fff;
+}
+
+.mat-cell button:not([color]):hover {
+  background: #7f8c8d;
+}
+
+/* === Paginator === */
+mat-paginator {
+  margin-top: 1.2rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+  .visits-container {
+    padding: 1rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  .mat-cell button {
+    margin: 4px 0;
+    width: 100%;
+    justify-content: center;
+  }
 }

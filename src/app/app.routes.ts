@@ -12,7 +12,9 @@ import { VisitSchedulerComponent } from './dashboard/visit-scheduler/visit-sched
 import { WeeklyCalendarComponent } from './dashboard/weekly-calendar/weekly-calendar.component';
 import { VisitsComponent } from './dashboard/visits/visits.component';
 import { AddVisit } from '../stores/visit/visit.actions';
-
+import { VisitNoteComponent } from './dashboard/visit-note/visit-note.component';
+import { AddVisitNote } from '../stores/visitnote/visitnote.action';
+import { AddVisitNoteComponent } from './dashboard/visit-note/add-visit-note/add-visit-note.component';
 export const routes: Routes = [
     {path:'login',component:LoginComponent} ,
     {path:'register',component:RegisterComponent},
@@ -24,7 +26,9 @@ export const routes: Routes = [
     {path:'providers',component:ProvidersComponent,canActivate:[AuthGuard]},
     {path:'visit-scheduler',component:VisitSchedulerComponent,canActivate:[AuthGuard]},
     {path:'weekly-calender',component:WeeklyCalendarComponent,canActivate:[AuthGuard]},
-    {path:'visits',component:VisitsComponent,canActivate:[AuthGuard]},
+    {path:'visits',component:VisitsComponent,canActivate:[AuthGuard],pathMatch:"full"},
     {path:'update-visit/:id',component:VisitSchedulerComponent,canActivate:[AuthGuard]},
+    {path:'visit-note/:visitId/:completed',component:VisitNoteComponent,canActivate:[AuthGuard]},
+    {path:'add-note/:visitId',component:AddVisitNoteComponent,canActivate:[AuthGuard],pathMatch:'full'},
     {path:'**',component:NotFoundComponent }
 ];
