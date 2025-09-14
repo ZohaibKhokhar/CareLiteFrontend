@@ -9,6 +9,7 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { DeleteVisitNote } from '../../../stores/visitnote/visitnote.action';
+import { UpdateVisitNote } from '../../../stores/visitnote/visitnote.action';
 @Component({
   selector: 'app-visit-note',
   standalone: true,
@@ -22,6 +23,7 @@ export class VisitNoteComponent implements OnInit {
   visitId!: number;
   completed!: boolean;
   router:Router=inject(Router);
+  visitnote!:VisitNoteReadDto|null;
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
@@ -48,4 +50,20 @@ export class VisitNoteComponent implements OnInit {
       this.store.dispatch(new DeleteVisitNote(noteID));
     }
   }
+
+  finalizeNote(visitNoteId: number) {
+    this.visitNote$.subscribe(data => {
+      this.visitnote = data;
+    });
+    if (this.visitnote) {
+      const updatedNote: VisitNoteReadDto = {
+        ...this.visitnote,
+        isFinalized: true
+      };
+      this.store.dispatch(new UpdateVisitNote(updatedNote));
+  }
+  this.router.navigate(['/visits']);
+}
+
+
 }

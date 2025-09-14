@@ -87,11 +87,9 @@ onDelete(visitId: number) {
 
   onStatusChange(visit: VisitWithNames | null) {
     if (!visit) return;
-    console.log('here in on status change ',visit.isCompleted);
     const updatedVisit: Visit = { ...visit, isCompleted: !visit.isCompleted };
-    console.log(updatedVisit.isCompleted);
     this.store.dispatch(new UpdateStatus(updatedVisit));
-  setTimeout(() => this.store.dispatch(new LoadVisitsWithNames()));
+  setTimeout(() => this.store.dispatch(new LoadVisitsWithNames()), 500);
   }
 
   onUpdate(visitId: number) {
